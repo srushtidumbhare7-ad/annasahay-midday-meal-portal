@@ -1,5 +1,14 @@
 # AnnaSahay – Smart Mid-Day Meal Monitoring & Management System
 
+[![Live Demo](https://img.shields.io/badge/Live_Demo-Render-46E3B7?style=for-the-badge&logo=render&logoColor=white)](https://annasahay-midday-meal-portal.onrender.com)
+[![Java](https://img.shields.io/badge/Java-17-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)](https://openjdk.org/)
+[![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.3.2-6DB33F?style=for-the-badge&logo=springboot&logoColor=white)](https://spring.io/projects/spring-boot)
+[![MySQL](https://img.shields.io/badge/MySQL-8.0-4479A1?style=for-the-badge&logo=mysql&logoColor=white)](https://www.mysql.com/)
+[![Docker](https://img.shields.io/badge/Docker-Enabled-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
+
+> 🌐 **Live Web Application**: [https://annasahay-midday-meal-portal.onrender.com](https://annasahay-midday-meal-portal.onrender.com)  
+> 🔑 **Demo Login Credentials**: Username: `admin` | Password: `admin123`
+
 AnnaSahay is a Java Full Stack web application designed to monitor and manage the **PM POSHAN (Mid-Day Meal)** scheme in schools. It provides a simple, clean, and secure solution for tracking daily student attendance, managing weekly meal menus, registering ingredients, replenishing stock batches, logging daily meal consumption (with automatic stock deduction), and generating monthly audit reports.
 
 ---
@@ -182,7 +191,23 @@ Detailed breakdown of all files in the project workspace:
 
 ---
 
-## 5. Setup & Local Run Instructions
+## 5. Deployment & Run Instructions
+
+### 🚀 Live Cloud Deployment (Production)
+- **Public URL**: [https://annasahay-midday-meal-portal.onrender.com](https://annasahay-midday-meal-portal.onrender.com)
+- **Database**: Cloud MySQL 8.4 on Aiven
+- **Demo Login**: Username: `admin` | Password: `admin123`
+- Detailed deployment documentation is available in [DEPLOYMENT.md](DEPLOYMENT.md).
+
+### 🐳 Run with Docker (Single Command)
+```bash
+docker-compose up --build
+```
+Access at `http://localhost:8080`.
+
+---
+
+### 💻 Local Development Setup
 
 ### 1. Database Configuration
 1. Make sure MySQL is running on port 3306.
