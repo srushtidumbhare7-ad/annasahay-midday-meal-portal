@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AnnaSahay – PM POSHAN Mid-Day Meal Management Portal</title>
+    <!-- Google Fonts: Plus Jakarta Sans & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+    <!-- Bootstrap 5.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom Enterprise CSS with Cache-Buster -->
+    <link rel="stylesheet" href="css/style.css?v=3.2">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <!-- 1. Enterprise Login Screen -->
+    <div id="login-screen">
+        <div class="login-card">
+            <div class="login-brand-header">
+                <span class="login-brand-badge">National Portal Gateway</span>
+                <div>
+                    <img src="images/logo.png" alt="AnnaSahay Official Emblem" class="login-brand-logo">
+                </div>
+                <h2 class="login-title">AnnaSahay</h2>
+                <p class="login-subtitle">PM POSHAN Mid-Day Meal Administration Portal</p>
+            </div>
+
+            <div id="login-error" class="alert alert-danger d-none py-2 px-3 small rounded-3" role="alert"></div>
+
+            <form id="login-form">
+                <div class="mb-3">
+                    <label for="login-username" class="form-label">Administrator Username</label>
+                    <input type="text" class="form-control" id="login-username" placeholder="Enter username" required value="admin">
+                </div>
+
+                <div class="mb-4">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <label for="login-password" class="form-label mb-0">Password</label>
+                    </div>
+                    <input type="password" class="form-control" id="login-password" placeholder="Enter password" required value="admin123">
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">
+                    Sign In to Portal
+                </button>
+            </form>
+
+            <div class="demo-credentials-card d-flex align-items-center justify-content-between">
+                <div>
+                    <span class="d-block fw-semibold text-dark">Default Credentials:</span>
+                    <span>User: <code>admin</code> | Pass: <code>admin123</code></span>
+                </div>
+                <button type="button" class="btn btn-sm btn-outline-secondary py-1 px-2" style="font-size: 0.75rem;" onclick="autofillDemo()">
+                    Fill
+                </button>
+            </div>
+
+            <div class="text-center mt-3 text-muted" style="font-size: 0.75rem;">
+                Official School Administration Gateway • Secure 256-Bit Node
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. Main Portal Application Container (Hidden before login) -->
+    <div id="app-container" class="d-none">
+        <!-- Top Executive Navbar (Deep Navy Gradient) -->
+        <nav class="navbar-executive no-print">
+            <div class="container-fluid d-flex align-items-center justify-content-between px-0">
+                <!-- Brand Title -->
+                <div class="navbar-brand-wrapper">
+                    <img src="images/logo.png" alt="AnnaSahay Logo" class="navbar-logo-img">
+                    <div>
+                        <span class="brand-name">AnnaSahay</span>
+                        <div class="brand-tagline">PM POSHAN National School Operations Portal</div>
+                    </div>
+                </div>
+
+                <!-- Center Operational Status -->
+                <div class="d-none d-lg-flex align-items-center gap-3">
+                    <span class="nav-status-pill">
+                        <span class="pulse-dot"></span>
+                        State Node Connected
+                    </span>
+                    <span class="nav-date-clock" id="header-date-clock">
+                        Today
+                    </span>
+                </div>
+
+                <!-- Right Admin Profile & Action -->
+                <div class="d-flex align-items-center gap-3">
+                    <div class="admin-profile-pill d-none d-md-flex">
+                        <div class="admin-avatar">SA</div>
+                        <div>
+                            <span class="admin-title" id="school-name">Government School</span>
+                            <span class="admin-subtitle">School Administrator</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-logout-header" onclick="logout()" title="Sign out of system">
+                        Logout
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Body Grid -->
+        <div class="container-fluid py-4 px-3 px-md-4">
+            <div class="row g-4">
+                <!-- Sidebar Menu Navigation (Desktop • Pure Clean Typography) -->
+                <div class="col-lg-3 col-xl-2 no-print">
+                    <div class="sidebar-panel">
+                        <div class="sidebar-category">Overview</div>
+                        <nav class="sidebar-nav nav flex-column">
+                            <a class="nav-link active" href="#" onclick="switchTab('dashboard')">
+                                Dashboard
+                            </a>
+                        </nav>
+
+                        <div class="sidebar-category">Operations</div>
+                        <nav class="sidebar-nav nav flex-column">
+                            <a class="nav-link" href="#" onclick="switchTab('attendance')">
+                                Daily Attendance
+                            </a>
+                            <a class="nav-link" href="#" onclick="switchTab('menu')">
+                                Weekly Meal Menu
+                            </a>
+                        </nav>
+
+                        <div class="sidebar-category">Inventory</div>
+                        <nav class="sidebar-nav nav flex-column">
+                            <a class="nav-link" href="#" onclick="switchTab('ingredients')">
+                                Ingredient Registry
+                            </a>
+                            <a class="nav-link" href="#" onclick="switchTab('stock')">
+                                Inward Stock Pantry
+                            </a>
+                            <a class="nav-link" href="#" onclick="switchTab('consumption')">
+                                Daily Consumption
+                            </a>
+                        </nav>
+
+                        <div class="sidebar-category">Auditing</div>
+                        <nav class="sidebar-nav nav flex-column">
+                            <a class="nav-link" href="#" onclick="switchTab('reports')">
+                                Reports &amp; Audits
+                            </a>
+                        </nav>
+                    </div>
+                </div>
+
+                <!-- Central Content Portal -->
+                <div class="col-lg-9 col-xl-10">
+                    <div class="content-portal-wrapper position-relative">
+                        <!-- System Notification Alerts -->
+                        <div id="toast-container" class="position-fixed bottom-0 end-0 p-3 no-print" style="z-index: 1060;"></div>
+
+                        <!-- 1. DASHBOARD TAB -->
+                        <div id="tab-dashboard" class="tab-pane-content">
+                            <div class="section-header-block">
+                                <div>
+                                    <h3 class="section-title">Operations Dashboard</h3>
+                                    <p class="section-subtitle">Real-time attendance metrics, scheduled meals, and grain inventory telemetry</p>
+                                </div>
+                                <button class="btn btn-sm btn-outline-secondary no-print" onclick="loadDashboardTab()">
+                                    Refresh Telemetry
+                                </button>
+                            </div>
+
+                            <!-- Low Stock Alerts Widget Banner -->
+                            <div id="dashboard-alerts" class="mb-4"></div>
+
+                            <!-- Rich Gradient KPI Metrics Grid -->
+                            <div class="row g-3 mb-4">
+                                <!-- KPI 1: Enrolled Students -->
+                                <div class="col-sm-6 col-xl-3">
+                                    <div class="kpi-card kpi-enrolled">
+                                        <div>
+                                            <div class="kpi-top-bar">
+                                                <span class="kpi-label">Total Enrolled</span>
+                                                <span class="kpi-badge-chip">Classes 1–8</span>
+                                            </div>
+                                            <div class="kpi-value" id="dash-total-students">240</div>
+                                        </div>
+                                        <div class="kpi-footer-text">
+                                            Active Student Roster Pool
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- KPI 2: Today's Attendance -->
+                                <div class="col-sm-6 col-xl-3">
+                                    <div class="kpi-card kpi-attendance">
+                                        <div>
+                                            <div class="kpi-top-bar">
+                                                <span class="kpi-label">Today's Attendance</span>
+                                                <span class="kpi-badge-chip" id="dash-attendance-percent">0.0% Present</span>
+                                            </div>
+                                            <div class="kpi-value" id="dash-today-attendance">0</div>
+                                        </div>
+                                        <div class="kpi-footer-text">
+                                            Daily Turnout Verification
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- KPI 3: Scheduled Meal -->
+                                <div class="col-sm-6 col-xl-3">
+                                    <div class="kpi-card kpi-menu">
+                                        <div>
+                                            <div class="kpi-top-bar">
+                                                <span class="kpi-label">Scheduled Meal</span>
+                                                <span class="kpi-badge-chip">Daily Diet</span>
+                                            </div>
+                                            <div class="kpi-value text-truncate" id="dash-today-menu" style="font-size: 1.15rem; padding-top: 6px;">--</div>
+                                        </div>
+                                        <div class="kpi-footer-text">
+                                            Nutritionally Balanced Plan
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- KPI 4: Low Stock Alert -->
+                                <div class="col-sm-6 col-xl-3">
+                                    <div class="kpi-card kpi-warning">
+                                        <div>
+                                            <div class="kpi-top-bar">
+                                                <span class="kpi-label">Low Stock Alerts</span>
+                                                <span class="kpi-badge-chip">Buffer Status</span>
+                                            </div>
+                                            <div class="kpi-value" id="dash-low-stock-count">0</div>
+                                        </div>
+                                        <div class="kpi-footer-text" id="dash-stock-alert-footer">
+                                            Replenishment Status
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Inventory Balances & Visual Chart -->
+                            <div class="row g-4">
+                                <!-- Table View -->
+                                <div class="col-xl-7">
+                                    <div class="card border-0 shadow-none h-100">
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <h5 class="fw-bold m-0" style="font-size: 1.05rem; color: var(--text-navy);">
+                                                Available Pantry Supplies
+                                            </h5>
+                                            <button class="btn btn-sm-action" onclick="switchTab('stock')">
+                                                Manage Supplies &rarr;
+                                            </button>
+                                        </div>
+                                        <div class="table-container-card">
+                                            <table class="table table-custom">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Ingredient Name</th>
+                                                        <th>Available Balance</th>
+                                                        <th class="text-end">Threshold Status</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="dash-stock-tbody">
+                                                    <!-- Loaded dynamically -->
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Doughnut Chart -->
+                                <div class="col-xl-5">
+                                    <div class="card border-0 shadow-none h-100">
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <h5 class="fw-bold m-0" style="font-size: 1.05rem; color: var(--text-navy);">
+                                                Stock Composition
+                                            </h5>
+                                            <span class="badge-code">Live Balance</span>
+                                        </div>
+                                        <div class="table-container-card p-3 d-flex align-items-center justify-content-center" style="min-height: 280px;">
+                                            <div style="width: 100%; height: 250px; position: relative;">
+                                                <canvas id="stockChart"></canvas>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 2. ATTENDANCE TAB -->
+                        <div id="tab-attendance" class="tab-pane-content d-none">
+                            <div class="section-header-block">
+                                <div>
+                                    <h3 class="section-title">Daily Student Attendance</h3>
+                                    <p class="section-subtitle">Record and verify classroom attendance for Mid-Day Meal distribution</p>
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <button type="button" class="btn btn-sm-action" onclick="fillAttendanceAll(30)">
+                                        Auto-Fill 100%
+                                    </button>
+                                    <button type="button" class="btn btn-sm-action" onclick="fillAttendanceAll(0)">
+                                        Clear Roster
+                                    </button>
+                                </div>
+                            </div>
+
+                            <form id="attendance-roster-form">
+                                <div class="card border p-3 rounded-3 mb-4 bg-light">
+                                    <div class="row align-items-end g-3">
+                                        <div class="col-md-4">
+                                            <label for="att-date" class="form-label">Roster Date</label>
+                                            <input type="date" id="att-date" class="form-control" required onchange="loadAttendanceRoster()">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <button type="button" class="btn btn-outline-secondary w-100" onclick="loadAttendanceRoster()">
+                                                Fetch Date Roster
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="table-container-card mb-4">
+                                    <table class="table table-custom">
+                                        <thead>
+                                            <tr>
+                                                <th>Class Grade</th>
+                                                <th>Standard Capacity</th>
+                                                <th>Present Student Count</th>
+                                                <th>Turnout Ratio</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="attendance-roster-tbody">
+                                            <!-- Dyn Loaded Classes 1-8 -->
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="text-secondary small fw-medium">
+                                        Data updates will automatically adjust daily meal quota allocations.
+                                    </div>
+                                    <button type="submit" class="btn btn-primary px-4">
+                                        Save Attendance Records
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- 3. MEAL MENU TAB -->
+                        <div id="tab-menu" class="tab-pane-content d-none">
+                            <div class="section-header-block">
+                                <div>
+                                    <h3 class="section-title">Weekly Meal Menu Schedule</h3>
+                                    <p class="section-subtitle">Define standardized nutritional recipes across weekdays (Monday – Saturday)</p>
+                                </div>
+                                <button class="btn btn-primary btn-sm px-3" onclick="openMenuModal()">
+                                    Add Menu Day
+                                </button>
+                            </div>
+
+                            <div class="table-container-card">
+                                <table class="table table-custom">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 180px;">Weekday</th>
+                                            <th>Scheduled Dishes &amp; Ingredients</th>
+                                            <th class="text-end" style="width: 180px;">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="menu-tbody">
+                                        <!-- Loaded dynamically -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- 4. INGREDIENTS TAB -->
+                        <div id="tab-ingredients" class="tab-pane-content d-none">
+                            <div class="section-header-block">
+                                <div>
+                                    <h3 class="section-title">Ingredient Catalog</h3>
+                                    <p class="section-subtitle">Maintain standardized grain, pulse, and spice inventory master list</p>
+                                </div>
+                                <button class="btn btn-primary btn-sm px-3" onclick="openIngredientModal()">
+                                    Add New Ingredient
+                                </button>
+                            </div>
+
+                            <div class="table-container-card">
+                                <table class="table table-custom">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 130px;">Catalog ID</th>
+                                            <th>Ingredient Name</th>
+                                            <th style="width: 160px;">Standard Metric</th>
+                                            <th class="text-end" style="width: 180px;">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="ingredients-tbody">
+                                        <!-- Loaded dynamically -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- 5. STOCK PANTRY TAB -->
+                        <div id="tab-stock" class="tab-pane-content d-none">
+                            <div class="section-header-block">
+                                <div>
+                                    <h3 class="section-title">Inward Stock Pantry Ledger</h3>
+                                    <p class="section-subtitle">Track supply consignments and available batch quantities (FIFO allocation)</p>
+                                </div>
+                                <button class="btn btn-primary btn-sm px-3" onclick="openStockModal()">
+                                    Log Inward Supply
+                                </button>
+                            </div>
+
+                            <div class="card border p-3 rounded-3 mb-4 bg-light">
+                                <div class="row align-items-center g-3">
+                                    <div class="col-md-5">
+                                        <input type="text" id="stock-search" class="form-control" placeholder="Search ingredient name..." onkeyup="filterStockTable()">
+                                    </div>
+                                    <div class="col-md-7 text-md-end text-secondary small">
+                                        Sequential First-In-First-Out (FIFO) stock batch deduction
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="table-container-card">
+                                <table class="table table-custom">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 110px;">Batch ID</th>
+                                            <th>Ingredient</th>
+                                            <th>Received Qty</th>
+                                            <th>Available Balance</th>
+                                            <th>Consignment Date</th>
+                                            <th class="text-end" style="width: 180px;">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="stock-tbody">
+                                        <!-- Loaded dynamically -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- 6. DAILY CONSUMPTION TAB -->
+                        <div id="tab-consumption" class="tab-pane-content d-none">
+                            <div class="section-header-block">
+                                <div>
+                                    <h3 class="section-title">Daily Meal Consumption Logger</h3>
+                                    <p class="section-subtitle">Log daily kitchen ingredient usage with automated FIFO inventory depletion</p>
+                                </div>
+                                <button class="btn btn-primary btn-sm px-3" onclick="openConsumptionModal()">
+                                    Record Consumption
+                                </button>
+                            </div>
+
+                            <div class="table-container-card">
+                                <table class="table table-custom">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 120px;">Entry ID</th>
+                                            <th style="width: 140px;">Date</th>
+                                            <th>Ingredient Consumed</th>
+                                            <th>Deducted Quantity</th>
+                                            <th class="text-end" style="width: 180px;">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="consumption-tbody">
+                                        <!-- Loaded dynamically -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- 7. REPORTS & AUDITS TAB -->
+                        <div id="tab-reports" class="tab-pane-content d-none">
+                            <div class="section-header-block no-print">
+                                <div>
+                                    <h3 class="section-title">Official Reports &amp; Audit Center</h3>
+                                    <p class="section-subtitle">Generate regulatory audit sheets and statutory compliance summaries</p>
+                                </div>
+                            </div>
+
+                            <!-- Filter Parameters Form -->
+                            <div class="card border p-3 rounded-3 mb-4 bg-light no-print">
+                                <div class="row align-items-end g-3">
+                                    <div class="col-md-3">
+                                        <label for="report-type" class="form-label">Report Category</label>
+                                        <select id="report-type" class="form-select" onchange="toggleReportFilter()">
+                                            <option value="attendance">Daily Attendance Log</option>
+                                            <option value="usage">Daily Stock Usage (Consumption)</option>
+                                            <option value="inventory">Current Available Inventory</option>
+                                            <option value="monthly">Monthly Summary &amp; Audit</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3 report-date-filter">
+                                        <label for="report-start-date" class="form-label">Start Date</label>
+                                        <input type="date" id="report-start-date" class="form-control">
+                                    </div>
+                                    <div class="col-md-3 report-date-filter">
+                                        <label for="report-end-date" class="form-label">End Date</label>
+                                        <input type="date" id="report-end-date" class="form-control">
+                                    </div>
+                                    <div class="col-md-3 report-month-filter d-none">
+                                        <label for="report-month" class="form-label">Target Audit Month</label>
+                                        <input type="month" id="report-month" class="form-control">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <button class="btn btn-primary w-100" onclick="generateReport()">
+                                            Generate Report
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Official Printable Document -->
+                            <div class="report-paper" id="printable-report">
+                                <div class="official-report-header">
+                                    <div class="gov-emblem-text">Government of India • Ministry of Education</div>
+                                    <h2 class="official-title">PM POSHAN SCHEME (MID-DAY MEAL)</h2>
+                                    <h5 class="text-secondary fw-semibold mb-2" id="print-report-title">Statutory Audit Summary</h5>
+                                    <div class="audit-meta-row">
+                                        School: <strong id="print-school-display">Government School</strong> | 
+                                        Generated on: <span id="print-generated-date"></span> | 
+                                        Status: <strong>Verified</strong>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex justify-content-between align-items-center mb-3 no-print">
+                                    <h6 class="fw-bold m-0 text-dark" id="report-title-label">Report Records</h6>
+                                    <button class="btn btn-sm btn-outline-dark" onclick="window.print()">
+                                        Print / Save as PDF
+                                    </button>
+                                </div>
+
+                                <div class="table-responsive" id="report-table-container">
+                                    <!-- Reports inject dynamic tables here -->
+                                </div>
+
+                                <!-- Signature block for auditing -->
+                                <div class="audit-signature-block">
+                                    <div class="signature-col">
+                                        <div class="sig-line"></div>
+                                        <div class="sig-label">Prepared By (Headmaster)</div>
+                                    </div>
+                                    <div class="signature-col">
+                                        <div class="sig-line"></div>
+                                        <div class="sig-label">Inspected By (Block Education Officer)</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Application Corporate Footer -->
+        <footer class="portal-footer no-print">
+            <div>
+                <strong>AnnaSahay</strong> – National PM POSHAN Scheme Telemetry Portal (v3.2 Enterprise)
+            </div>
+            <div>
+                &copy; 2026 Ministry of Education &amp; School Administration. All rights reserved.
+            </div>
+        </footer>
+    </div>
+
+    <!-- MODAL DIALOGS -->
+
+    <!-- 1. Weekly Menu Modal -->
+    <div class="modal fade no-print" id="menuModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form id="menu-form">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="menuModalLabel">Weekly Menu Configuration</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" id="menu-id">
+                        <div class="mb-3">
+                            <label for="menu-day" class="form-label">Day of the Week</label>
+                            <select id="menu-day" class="form-select" required>
+                                <option value="Monday">Monday</option>
+                                <option value="Tuesday">Tuesday</option>
+                                <option value="Wednesday">Wednesday</option>
+                                <option value="Thursday">Thursday</option>
+                                <option value="Friday">Friday</option>
+                                <option value="Saturday">Saturday</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="menu-meal" class="form-label">Meal Menu Description</label>
+                            <input type="text" id="menu-meal" class="form-control" placeholder="e.g. Khichdi with Mixed Vegetables &amp; Soybean" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary btn-sm px-3">Save Schedule</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. Ingredient Modal -->
+    <div class="modal fade no-print" id="ingredientModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form id="ingredient-form">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="ingredientModalLabel">Register Ingredient</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" id="ingredient-id">
+                        <div class="mb-3">
+                            <label for="ingredient-name" class="form-label">Ingredient Common Name</label>
+                            <input type="text" id="ingredient-name" class="form-control" placeholder="e.g. Rice, Toor Dal, Mustard Oil" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="ingredient-unit" class="form-label">Unit of Measure</label>
+                            <select id="ingredient-unit" class="form-select" required>
+                                <option value="kg">kg (Kilogram)</option>
+                                <option value="liter">liter (Liter)</option>
+                                <option value="g">g (Gram)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary btn-sm px-3">Save Ingredient</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. Inward Stock Modal -->
+    <div class="modal fade no-print" id="stockModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form id="stock-form-el">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="stockModalLabel">Log Supply Consignment</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" id="stock-id">
+                        <div class="mb-3" id="stock-ingredient-select-container">
+                            <label for="stock-ingredient-id" class="form-label">Target Ingredient</label>
+                            <select id="stock-ingredient-id" class="form-select" required>
+                                <!-- Loaded dynamically -->
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="stock-qty" class="form-label">Received Quantity (in registered unit)</label>
+                            <input type="number" id="stock-qty" class="form-control" min="0.01" step="0.01" placeholder="e.g. 50.00" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="stock-date" class="form-label">Receipt / Invoice Date</label>
+                            <input type="date" id="stock-date" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary btn-sm px-3">Confirm Inward Refill</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. Daily Consumption Modal -->
+    <div class="modal fade no-print" id="consumptionModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form id="consumption-form-el">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="consumptionModalLabel">Record Meal Usage</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="cons-ingredient-id" class="form-label">Ingredient</label>
+                            <select id="cons-ingredient-id" class="form-select" required>
+                                <!-- Loaded dynamically -->
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="cons-qty" class="form-label">Quantity Consumed</label>
+                            <input type="number" id="cons-qty" class="form-control" min="0.01" step="0.01" placeholder="e.g. 12.50" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="cons-date" class="form-label">Usage Date</label>
+                            <input type="date" id="cons-date" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary btn-sm px-3">Log Usage &amp; Deduct Stock</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 5. Confirm Delete Modal -->
+    <div class="modal fade no-print" id="deleteConfirmModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-light">
+                    <h5 class="modal-title text-danger" id="deleteModalLabel">Confirm Deletion</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center py-4">
+                    <p class="fs-6 text-dark mb-1">Are you sure you want to permanently delete this record?</p>
+                    <p class="text-secondary small mb-0">This operation cannot be reversed.</p>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-sm btn-outline-secondary px-3" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-sm btn-danger px-4" id="confirm-delete-btn">Confirm Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/app.js?v=3.2"></script>
+</body>
+</html>

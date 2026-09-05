@@ -1,0 +1,756 @@
+/* ==========================================================================
+   AnnaSahay - Real-World Institutional Portal Design System (v3.2)
+   PM POSHAN National Scheme • Ministry of Education Portal
+   Executive Deep Navy Header • Rich Gradient Metric Cards • Pure Typography
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap');
+
+:root {
+    /* Executive Palette */
+    --gov-navy-950: #070d1e;
+    --gov-navy-900: #0b132b;
+    --gov-navy-800: #1c2541;
+    --gov-navy-700: #2d3748;
+    
+    --primary-blue: #2563eb;
+    --primary-blue-dark: #1d4ed8;
+    --primary-blue-light: #eff6ff;
+    --primary-blue-border: #93c5fd;
+    
+    --emerald: #059669;
+    --emerald-dark: #065f46;
+    --emerald-light: #ecfdf5;
+    --emerald-border: #6ee7b7;
+    
+    --amber: #d97706;
+    --amber-dark: #92400e;
+    --amber-light: #fffbeb;
+    --amber-border: #fcd34d;
+    
+    --crimson: #dc2626;
+    --crimson-dark: #991b1b;
+    --crimson-light: #fff1f2;
+    --crimson-border: #fda4af;
+    
+    --canvas: #f1f5f9;
+    --surface-white: #ffffff;
+    --border-color: #cbd5e1;
+    --border-light: #e2e8f0;
+    
+    --text-navy: #0f172a;
+    --text-body: #334155;
+    --text-muted: #64748b;
+    
+    --font-heading: 'Plus Jakarta Sans', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    
+    --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.08), 0 1px 2px rgba(15, 23, 42, 0.04);
+    --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.08), 0 2px 4px -2px rgba(15, 23, 42, 0.05);
+    --shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -4px rgba(15, 23, 42, 0.04);
+    --shadow-xl: 0 20px 25px -5px rgba(15, 23, 42, 0.12), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
+}
+
+/* Base resets & typography */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--canvas);
+    color: var(--text-body);
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    color: var(--text-navy);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+/* ==========================================================================
+   Top Header Navbar (Executive Government Portal Style)
+   ========================================================================== */
+nav.navbar-executive {
+    background: linear-gradient(135deg, #070d1e 0%, #111d3d 100%);
+    border-bottom: 2px solid #2563eb;
+    padding: 12px 28px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    position: sticky;
+    top: 0;
+    z-index: 1020;
+}
+
+.navbar-brand-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    text-decoration: none;
+}
+
+.navbar-logo-img {
+    width: 44px;
+    height: 44px;
+    object-fit: contain;
+    border-radius: 8px;
+    background: #ffffff;
+    padding: 2px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.brand-name {
+    font-family: var(--font-heading);
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+}
+
+.brand-tagline {
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: #93c5fd;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.nav-status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(5, 150, 105, 0.2);
+    border: 1px solid rgba(52, 211, 153, 0.35);
+    color: #6ee7b7;
+    padding: 5px 14px;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.pulse-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #10b981;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.35);
+}
+
+.nav-date-clock {
+    color: #cbd5e1;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.admin-profile-pill {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 5px 16px;
+    background-color: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 9999px;
+}
+
+.admin-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #2563eb;
+    color: #ffffff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-heading);
+}
+
+.admin-title {
+    font-size: 0.825rem;
+    font-weight: 600;
+    color: #ffffff;
+    display: block;
+    line-height: 1.2;
+}
+
+.admin-subtitle {
+    font-size: 0.7rem;
+    color: #94a3b8;
+    display: block;
+}
+
+.btn-logout-header {
+    background: rgba(220, 38, 38, 0.15);
+    border: 1px solid rgba(239, 68, 68, 0.35);
+    color: #fca5a5;
+    font-weight: 600;
+    font-size: 0.8rem;
+    padding: 6px 16px;
+    border-radius: 6px;
+    transition: all 0.15s ease;
+}
+
+.btn-logout-header:hover {
+    background: #dc2626;
+    color: #ffffff;
+    border-color: #dc2626;
+}
+
+/* ==========================================================================
+   Modern Clean Sidebar Navigation (Pure Typography • No Emojis)
+   ========================================================================== */
+.sidebar-panel {
+    background: #ffffff;
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    padding: 18px 12px;
+    box-shadow: var(--shadow-sm);
+}
+
+.sidebar-category {
+    font-size: 0.68rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #94a3b8;
+    padding: 10px 14px 4px 14px;
+    margin-top: 6px;
+}
+
+.sidebar-category:first-of-type {
+    margin-top: 0;
+    padding-top: 2px;
+}
+
+.sidebar-nav .nav-link {
+    display: block;
+    padding: 10px 16px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #475569;
+    border-radius: 8px;
+    transition: all 0.15s ease;
+    text-decoration: none;
+    margin-bottom: 2px;
+    border-left: 3px solid transparent;
+}
+
+.sidebar-nav .nav-link:hover {
+    background-color: #f1f5f9;
+    color: #0f172a;
+}
+
+.sidebar-nav .nav-link.active {
+    background: linear-gradient(90deg, #eff6ff 0%, #dbeafe 100%);
+    color: #1d4ed8;
+    font-weight: 700;
+    border-left: 3px solid #2563eb;
+}
+
+/* ==========================================================================
+   Central Content Container
+   ========================================================================== */
+.content-portal-wrapper {
+    background: var(--surface-white);
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    padding: 28px 32px;
+    box-shadow: var(--shadow-sm);
+    min-height: 80vh;
+}
+
+.section-header-block {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 1px solid var(--border-light);
+    padding-bottom: 16px;
+    margin-bottom: 24px;
+}
+
+.section-title {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--text-navy);
+    margin: 0 0 4px 0;
+}
+
+.section-subtitle {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    margin: 0;
+}
+
+/* ==========================================================================
+   Rich Gradient Metric KPI Cards (Eye-Catching, Professional, Vibrant)
+   ========================================================================== */
+.kpi-card {
+    border-radius: 12px;
+    padding: 22px 20px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: 1px solid transparent;
+}
+
+.kpi-card:hover {
+    transform: translateY(-2px);
+}
+
+/* 1. Total Enrolled (Vibrant Royal Blue) */
+.kpi-enrolled {
+    background: linear-gradient(135deg, #ffffff 0%, #eff6ff 60%, #dbeafe 100%);
+    border-color: var(--primary-blue-border);
+    border-left: 4px solid var(--primary-blue);
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.1);
+}
+.kpi-enrolled .kpi-label { color: #1e40af; }
+.kpi-enrolled .kpi-value { color: #1e3a8a; }
+
+/* 2. Today's Attendance (Vibrant Emerald Green) */
+.kpi-attendance {
+    background: linear-gradient(135deg, #ffffff 0%, #ecfdf5 60%, #d1fae5 100%);
+    border-color: var(--emerald-border);
+    border-left: 4px solid var(--emerald);
+    box-shadow: 0 4px 14px rgba(5, 150, 105, 0.1);
+}
+.kpi-attendance .kpi-label { color: var(--emerald-dark); }
+.kpi-attendance .kpi-value { color: #064e3b; }
+
+/* 3. Today's Menu (Vibrant Amber Gold) */
+.kpi-menu {
+    background: linear-gradient(135deg, #ffffff 0%, #fffbeb 60%, #fef3c7 100%);
+    border-color: var(--amber-border);
+    border-left: 4px solid var(--amber);
+    box-shadow: 0 4px 14px rgba(217, 119, 6, 0.1);
+}
+.kpi-menu .kpi-label { color: var(--amber-dark); }
+.kpi-menu .kpi-value { color: #78350f; }
+
+/* 4. Low Stock Warning (Vibrant Crimson Rose) */
+.kpi-warning {
+    background: linear-gradient(135deg, #ffffff 0%, #fff1f2 60%, #ffe4e6 100%);
+    border-color: var(--crimson-border);
+    border-left: 4px solid var(--crimson);
+    box-shadow: 0 4px 14px rgba(220, 38, 38, 0.1);
+}
+.kpi-warning .kpi-label { color: var(--crimson-dark); }
+.kpi-warning .kpi-value { color: #881337; }
+
+.kpi-top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.kpi-label {
+    font-size: 0.725rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.kpi-badge-chip {
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 9999px;
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.kpi-value {
+    font-family: var(--font-heading);
+    font-size: 2.1rem;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 6px;
+    letter-spacing: -0.03em;
+}
+
+.kpi-footer-text {
+    font-size: 0.775rem;
+    font-weight: 500;
+    color: var(--text-muted);
+}
+
+/* ==========================================================================
+   Alert Banners (Clean Corporate Ribbons)
+   ========================================================================== */
+.alert-ribbon {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px 20px;
+    border-radius: 10px;
+    margin-bottom: 16px;
+    border: 1px solid var(--amber-border);
+    border-left: 5px solid var(--amber);
+    background: linear-gradient(90deg, #fffbeb 0%, #fef3c7 100%);
+    color: var(--amber-dark);
+}
+
+.alert-ribbon-content {
+    font-size: 0.875rem;
+    line-height: 1.4;
+}
+
+/* ==========================================================================
+   Enterprise Data Tables
+   ========================================================================== */
+.table-container-card {
+    border: 1px solid var(--border-light);
+    border-radius: 10px;
+    overflow: hidden;
+    background: #ffffff;
+    box-shadow: var(--shadow-sm);
+}
+
+.table-custom {
+    margin-bottom: 0;
+    width: 100%;
+    vertical-align: middle;
+}
+
+.table-custom thead th {
+    background-color: #f8fafc;
+    color: #475569;
+    font-size: 0.725rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border-light);
+    white-space: nowrap;
+}
+
+.table-custom tbody td {
+    padding: 14px 18px;
+    color: var(--text-navy);
+    font-size: 0.875rem;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.table-custom tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.table-custom tbody tr:hover {
+    background-color: #f8fafc;
+}
+
+/* Status Badges */
+.status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.status-pill-success {
+    background-color: var(--emerald-light);
+    border: 1px solid var(--emerald-border);
+    color: #047857;
+}
+
+.status-pill-danger {
+    background-color: var(--crimson-light);
+    border: 1px solid var(--crimson-border);
+    color: #b91c1c;
+}
+
+.status-pill-neutral {
+    background-color: #f1f5f9;
+    border: 1px solid var(--border-light);
+    color: #475569;
+}
+
+.status-dot-sm {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+}
+
+.status-dot-sm.dot-success { background-color: #10b981; }
+.status-dot-sm.dot-danger { background-color: #ef4444; }
+.status-dot-sm.dot-neutral { background-color: #94a3b8; }
+
+.badge-code {
+    font-family: var(--font-mono);
+    font-size: 0.775rem;
+    font-weight: 600;
+    color: #334155;
+    background-color: #f1f5f9;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    padding: 2px 6px;
+}
+
+/* Action buttons */
+.btn-sm-action {
+    padding: 6px 14px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    border-radius: 6px;
+    border: 1px solid var(--border-light);
+    background-color: #ffffff;
+    color: var(--text-body);
+    transition: all 0.15s ease;
+}
+
+.btn-sm-action:hover {
+    background-color: #f1f5f9;
+    border-color: #cbd5e1;
+    color: var(--text-navy);
+}
+
+.btn-sm-danger {
+    color: var(--crimson);
+    border-color: var(--crimson-border);
+    background-color: #ffffff;
+}
+
+.btn-sm-danger:hover {
+    background-color: var(--crimson-light);
+    border-color: var(--crimson);
+    color: var(--crimson-dark);
+}
+
+.btn-primary {
+    background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%);
+    border: 1px solid #1e40af;
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 0.925rem;
+    border-radius: 8px;
+    padding: 10px 22px;
+    transition: all 0.15s ease;
+    box-shadow: 0 2px 4px rgba(29, 78, 216, 0.2);
+}
+
+.btn-primary:hover {
+    background: linear-gradient(180deg, #1d4ed8 0%, #1e40af 100%);
+    border-color: #1e3a8a;
+    color: #ffffff;
+    box-shadow: 0 4px 8px rgba(29, 78, 216, 0.3);
+}
+
+/* Modals */
+.modal-content {
+    border-radius: 14px;
+    border: 1px solid var(--border-light);
+    box-shadow: var(--shadow-xl);
+    overflow: hidden;
+}
+
+.modal-header {
+    background-color: #f8fafc;
+    border-bottom: 1px solid var(--border-light);
+    padding: 18px 24px;
+}
+
+.modal-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-navy);
+}
+
+.modal-body {
+    padding: 24px;
+}
+
+.modal-footer {
+    border-top: 1px solid var(--border-light);
+    background-color: #f8fafc;
+    padding: 16px 24px;
+}
+
+/* Reports */
+.report-paper {
+    background: #ffffff;
+    border: 1px solid var(--border-light);
+    border-radius: 10px;
+    padding: 28px;
+    box-shadow: var(--shadow-sm);
+}
+
+.official-report-header {
+    text-align: center;
+    border-bottom: 2px solid var(--text-navy);
+    padding-bottom: 16px;
+    margin-bottom: 22px;
+}
+
+.gov-emblem-text {
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+}
+
+.official-title {
+    font-size: 1.45rem;
+    font-weight: 800;
+    color: var(--text-navy);
+    margin: 4px 0;
+}
+
+.audit-meta-row {
+    font-size: 0.825rem;
+    color: var(--text-muted);
+}
+
+.audit-signature-block {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 45px;
+    padding-top: 22px;
+    border-top: 1px dashed var(--border-color);
+}
+
+.signature-col {
+    text-align: center;
+    width: 220px;
+}
+
+.sig-line {
+    border-top: 1px solid var(--text-navy);
+    margin-bottom: 6px;
+}
+
+.sig-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-navy);
+}
+
+/* Enterprise Footer */
+.portal-footer {
+    border-top: 1px solid var(--border-light);
+    background-color: #ffffff;
+    padding: 18px 28px;
+    color: var(--text-muted);
+    font-size: 0.825rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 36px;
+}
+
+/* Toast */
+.toast-enterprise {
+    border-radius: 8px;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border-light);
+    min-width: 330px;
+}
+
+/* Login Page Styling */
+#login-screen {
+    min-height: 100vh;
+    background: radial-gradient(circle at top right, #1c2541 0%, #0b132b 60%, #070d1e 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    position: relative;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 440px;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+    padding: 38px 34px;
+    position: relative;
+    z-index: 2;
+}
+
+.login-brand-header {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.login-brand-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 9999px;
+    background-color: var(--primary-blue-light);
+    color: var(--primary-blue-dark);
+    font-size: 0.725rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    border: 1px solid var(--primary-blue-border);
+}
+
+.login-brand-logo {
+    width: 84px;
+    height: 84px;
+    object-fit: contain;
+    border-radius: 14px;
+    background: #ffffff;
+    padding: 4px;
+    border: 1px solid var(--border-light);
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 12px;
+}
+
+.login-title {
+    font-size: 1.55rem;
+    font-weight: 800;
+    color: var(--text-navy);
+    margin: 0 0 4px 0;
+}
+
+.login-subtitle {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin: 0;
+}
+
+.demo-credentials-card {
+    background-color: #f8fafc;
+    border: 1px dashed var(--border-color);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-top: 18px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.demo-credentials-card code {
+    font-family: var(--font-mono);
+    color: var(--primary-blue);
+    font-weight: 600;
+}
+
+@media print {
+    .no-print {
+        display: none !important;
+    }
+    body {
+        background: #ffffff !important;
+    }
+    .content-portal-wrapper, .report-paper {
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+    }
+}

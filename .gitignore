@@ -1,0 +1,35 @@
+# Compiled class files & build artifacts
+target/
+*.class
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# Local Database Files (CRITICAL - DO NOT COMMIT LOCAL MYSQL BINARY STORAGE)
+mysql_data/
+
+# Embedded Maven distribution
+apache-maven-*/
+
+# IDE & Editor files
+.idea/
+*.iml
+.vscode/
+.settings/
+.classpath
+.project
+*.sublime-project
+*.sublime-workspace
+
+# OS generated files
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Log files
+*.log
+logs/
