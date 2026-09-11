@@ -9,7 +9,7 @@ public class Menu {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "`day`", nullable = false, unique = true)
     private String day; // Monday - Saturday
 
     @Column(name = "meal_name", nullable = false)

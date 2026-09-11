@@ -119,15 +119,39 @@ public class DatabaseConfig {
             dbUrl = dbUrl.replace("ssl-mode=", "sslMode=");
         }
 
-        // Fallback default for local run if completely empty
-        if (dbUrl == null || dbUrl.isBlank()) {
-            dbUrl = "jdbc:mysql://localhost:3306/annasahay?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";
+        // Check if database is localhost or empty
+        boolean isLocalhost = (dbUrl == null || dbUrl.isBlank() || dbUrl.contains("localhost:3306") || dbUrl.contains("127.0.0.1:3306"));
+        boolean useH2 = false;
+
+        if (isLocalhost) {
+            boolean mysqlReachable = isPortReachable("localhost", 3306, 1000);
+            if (!mysqlReachable) {
+                useH2 = true;
+                log.warn("===============================================================================");
+                log.warn(">> MySQL server not detected on localhost:3306.");
+                log.warn(">> Auto-switching to high-performance in-memory H2 database (MySQL compatibility mode)");
+                log.warn(">> Cloud deployment will boot up in seconds with pre-seeded demo data!");
+                log.warn("===============================================================================");
+            }
         }
-        if (username == null || username.isBlank()) {
-            username = "root";
-        }
-        if (password == null) {
+
+        String driverClass;
+        if (useH2) {
+            dbUrl = "jdbc:h2:mem:annasahay;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=MySQL;DATABASE_TO_LOWER=TRUE;NON_KEYWORDS=DAY";
+            username = "sa";
             password = "";
+            driverClass = "org.h2.Driver";
+        } else {
+            if (dbUrl == null || dbUrl.isBlank()) {
+                dbUrl = "jdbc:mysql://localhost:3306/annasahay?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";
+            }
+            if (username == null || username.isBlank()) {
+                username = "root";
+            }
+            if (password == null) {
+                password = "";
+            }
+            driverClass = "com.mysql.cj.jdbc.Driver";
         }
 
         log.info("Configuring DataSource with URL: {}", dbUrl);
@@ -137,7 +161,7 @@ public class DatabaseConfig {
         config.setJdbcUrl(dbUrl);
         config.setUsername(username);
         config.setPassword(password);
-        config.setDriverClassName("com.mysql.cj.jdbc.Driver");
+        config.setDriverClassName(driverClass);
         config.setMaximumPoolSize(5);
         config.setMinimumIdle(1);
         config.setIdleTimeout(300000);
@@ -146,5 +170,14 @@ public class DatabaseConfig {
         config.setInitializationFailTimeout(60000);
 
         return new HikariDataSource(config);
+    }
+
+    private boolean isPortReachable(String host, int port, int timeoutMs) {
+        try (java.net.Socket socket = new java.net.Socket()) {
+            socket.connect(new java.net.InetSocketAddress(host, port), timeoutMs);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

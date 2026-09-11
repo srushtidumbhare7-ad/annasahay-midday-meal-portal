@@ -14,7 +14,7 @@ INSERT INTO ingredient (id, ingredient_name, unit) VALUES
 ON DUPLICATE KEY UPDATE ingredient_name=VALUES(ingredient_name), unit=VALUES(unit);
 
 -- Seed Weekly Menu
-INSERT INTO menu (id, day, meal_name) VALUES 
+INSERT INTO menu (id, `day`, meal_name) VALUES 
 (1, 'Monday', 'Dal Chawal & Veggies'), 
 (2, 'Tuesday', 'Kheer & Puri'), 
 (3, 'Wednesday', 'Egg Curry & Rice'), 
