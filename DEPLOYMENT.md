@@ -1,5 +1,8 @@
 # AnnaSahay – Complete Deployment & GitHub Guide
 
+> 🚀 **Live Production Link**: **[https://annasahay-midday-meal-portal.vercel.app](https://annasahay-midday-meal-portal.vercel.app/)**  
+> 🔑 **Demo Credentials**: Username: `admin` | Password: `admin123`
+
 This guide provides step-by-step instructions for:
 1. **Pushing the project code to GitHub** (Version Control & Portfolio Showcase).
 2. **Deploying the live web application on the cloud** (Free hosting on Render / Railway).
@@ -139,6 +142,8 @@ If you also wish to maintain a deployment on Render:
 ---
 
 ## Phase 2C: Deploying Frontend on Vercel (Edge CDN + API Reverse Proxy)
+
+> 🌐 **Live Web Portal**: **[https://annasahay-midday-meal-portal.vercel.app](https://annasahay-midday-meal-portal.vercel.app/)**
 
 Vercel provides ultra-fast frontend loading speeds. Because Vercel is a frontend/serverless platform and does not host long-running Java Spring Boot or Docker containers, this setup hosts the **Frontend UI on Vercel** and automatically forwards all backend API requests (`/api/*`) to your live Spring Boot backend on Railway or Render using the included `vercel.json` reverse proxy.
 
