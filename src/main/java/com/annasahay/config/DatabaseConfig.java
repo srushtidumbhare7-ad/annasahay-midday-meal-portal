@@ -119,20 +119,47 @@ public class DatabaseConfig {
             dbUrl = dbUrl.replace("ssl-mode=", "sslMode=");
         }
 
-        // Check if database is localhost or empty
-        boolean isLocalhost = (dbUrl == null || dbUrl.isBlank() || dbUrl.contains("localhost:3306") || dbUrl.contains("127.0.0.1:3306"));
-        boolean useH2 = false;
+        // Test network reachability of the configured database (localhost, Aiven, Railway, etc.)
+        boolean dbReachable = false;
+        String testHost = "localhost";
+        int testPort = 3306;
 
-        if (isLocalhost) {
-            boolean mysqlReachable = isPortReachable("localhost", 3306, 1000);
-            if (!mysqlReachable) {
-                useH2 = true;
-                log.warn("===============================================================================");
-                log.warn(">> MySQL server not detected on localhost:3306.");
-                log.warn(">> Auto-switching to high-performance in-memory H2 database (MySQL compatibility mode)");
-                log.warn(">> Cloud deployment will boot up in seconds with pre-seeded demo data!");
-                log.warn("===============================================================================");
+        if (dbUrl != null && dbUrl.startsWith("jdbc:mysql://")) {
+            try {
+                String clean = dbUrl.substring("jdbc:mysql://".length());
+                int slashIdx = clean.indexOf('/');
+                String hostPort = (slashIdx > 0) ? clean.substring(0, slashIdx) : clean;
+                int qIdx = hostPort.indexOf('?');
+                if (qIdx > 0) {
+                    hostPort = hostPort.substring(0, qIdx);
+                }
+
+                if (hostPort.contains(":")) {
+                    String[] parts = hostPort.split(":", 2);
+                    testHost = parts[0].trim();
+                    testPort = Integer.parseInt(parts[1].trim());
+                } else {
+                    testHost = hostPort.trim();
+                    testPort = 3306;
+                }
+                log.info("Testing database reachability at {}:{} (timeout: 2500ms)...", testHost, testPort);
+                dbReachable = isPortReachable(testHost, testPort, 2500);
+            } catch (Exception e) {
+                log.warn("Could not parse host/port from dbUrl to test reachability: {}", e.getMessage());
+                dbReachable = false;
             }
+        } else if (dbUrl != null && !dbUrl.isBlank()) {
+            dbReachable = true;
+        }
+
+        boolean useH2 = false;
+        if (!dbReachable) {
+            useH2 = true;
+            log.warn("===============================================================================");
+            log.warn(">> Target database at {}:{} is UNREACHABLE or DOWN!", testHost, testPort);
+            log.warn(">> Auto-switching to high-performance in-memory H2 database (MySQL compatibility mode)");
+            log.warn(">> Cloud deployment will boot up in seconds with pre-seeded demo data!");
+            log.warn("===============================================================================");
         }
 
         String driverClass;
@@ -166,8 +193,8 @@ public class DatabaseConfig {
         config.setMinimumIdle(1);
         config.setIdleTimeout(300000);
         config.setMaxLifetime(900000);
-        config.setConnectionTimeout(30000);
-        config.setInitializationFailTimeout(60000);
+        config.setConnectionTimeout(10000);
+        config.setInitializationFailTimeout(10000);
 
         return new HikariDataSource(config);
     }
