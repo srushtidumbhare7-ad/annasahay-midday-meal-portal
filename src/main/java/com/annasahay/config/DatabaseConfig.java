@@ -61,14 +61,34 @@ public class DatabaseConfig {
             password = password.trim().replaceAll("^\"|\"$|^'|'$", "");
         }
 
-        // Auto-convert raw Aiven URI (mysql://user:pass@host:port/dbname) to valid JDBC URL
+        // Check individual Railway MySQL environment variables (MYSQLHOST, MYSQLPORT, MYSQLDATABASE)
+        String railwayHost = System.getenv("MYSQLHOST");
+        if ((dbUrl == null || dbUrl.isBlank()) && railwayHost != null && !railwayHost.isBlank()) {
+            String railwayPort = System.getenv("MYSQLPORT");
+            if (railwayPort == null || railwayPort.isBlank()) railwayPort = "3306";
+            String railwayDb = System.getenv("MYSQLDATABASE");
+            if (railwayDb == null || railwayDb.isBlank()) railwayDb = "railway";
+            dbUrl = "jdbc:mysql://" + railwayHost + ":" + railwayPort + "/" + railwayDb + "?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC";
+            
+            String rUser = System.getenv("MYSQLUSER");
+            if (rUser != null && !rUser.isBlank()) {
+                username = rUser;
+            }
+            String rPass = System.getenv("MYSQLPASSWORD");
+            if (rPass != null && !rPass.isBlank()) {
+                password = rPass;
+            }
+            log.info("Auto-configured DataSource from Railway environment variables: {}:{}", railwayHost, railwayPort);
+        }
+
+        // Auto-convert raw Aiven / Railway URI (mysql://user:pass@host:port/dbname) to valid JDBC URL
         if (dbUrl != null && dbUrl.startsWith("mysql://")) {
             try {
                 URI uri = new URI(dbUrl);
                 String host = uri.getHost();
                 int port = uri.getPort() > 0 ? uri.getPort() : 3306;
                 String path = uri.getPath();
-                String dbName = (path != null && path.length() > 1) ? path.substring(1) : "defaultdb";
+                String dbName = (path != null && path.length() > 1) ? path.substring(1) : "railway";
 
                 if (uri.getUserInfo() != null) {
                     String[] userInfo = uri.getUserInfo().split(":", 2);
@@ -80,7 +100,13 @@ public class DatabaseConfig {
                     }
                 }
 
-                dbUrl = "jdbc:mysql://" + host + ":" + port + "/" + dbName + "?sslMode=REQUIRED&allowPublicKeyRetrieval=true";
+                // Internal cloud networks (like Railway private network or localhost) do not use SSL
+                String sslParam = "sslMode=PREFERRED";
+                if (host != null && (host.contains("railway.internal") || host.contains("localhost") || host.contains("127.0.0.1"))) {
+                    sslParam = "useSSL=false";
+                }
+
+                dbUrl = "jdbc:mysql://" + host + ":" + port + "/" + dbName + "?" + sslParam + "&allowPublicKeyRetrieval=true&serverTimezone=UTC";
                 log.info("Converted mysql:// to JDBC format for host: {}:{}", host, port);
             } catch (Exception e) {
                 log.warn("Could not parse mysql:// URI as RFC 2396, prepending jdbc:: {}", e.getMessage());

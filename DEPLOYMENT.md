@@ -72,50 +72,69 @@ git push
 
 ---
 
-## Phase 2: Live Cloud Deployment (Free on Render.com)
+## Phase 2: Live Cloud Deployment on Railway.app (Recommended)
 
-Once your code is pushed to GitHub, you can host the running application live on the web with a public URL in minutes.
+Railway is the best cloud platform for Java Spring Boot + MySQL applications because it provides **1-click built-in MySQL**, fast builds, and **no aggressive spin-down timeouts**.
 
-### Step 1: Set Up a Free MySQL Database
-Because Spring Boot needs a MySQL database to connect to:
-1. Go to **[Aiven.io](https://aiven.io/)** (Free tier MySQL) or **[Railway.app](https://railway.app/)**.
-2. Sign up and click **Create Service** → **MySQL**.
-3. Choose the **Free** tier.
-4. Copy the connection details:
-   - **Host** (e.g., `mysql-xxxx.aivencloud.com`)
-   - **Port** (e.g., `12345` or `3306`)
-   - **Database Name** (e.g., `defaultdb` or `annasahay`)
-   - **Username** (e.g., `avnadmin` or `root`)
-   - **Password** (e.g., your generated password)
+### Step 1: Create a New Project with MySQL on Railway
+1. Visit **[Railway.app](https://railway.app/)** and log in with your **GitHub** account (`srushtidumbhare7-ad`).
+2. Click **New Project** (or **+ New**).
+3. Select **Provision MySQL**.
+   - Railway will provision a dedicated MySQL 8 database in ~10 seconds.
+
+### Step 2: Deploy the AnnaSahay Application
+1. In the same project dashboard, click **+ Create** (or **Add a Service**).
+2. Select **GitHub Repo** and choose **`annasahay-midday-meal-portal`** (or `AnnaSahay`).
+3. Railway will automatically detect the `Dockerfile` and start building your container.
+
+### Step 3: Link MySQL to the Application
+1. Click on your **AnnaSahay** service card.
+2. Go to the **Variables** tab.
+3. Click **Add Variable** (or **New Variable**):
+   - Key: `SPRING_DATASOURCE_URL`
+   - Value: `${{MySQL.DATABASE_URL}}`
+   *(Railway will automatically populate this reference variable with your provisioned MySQL connection string, or `DatabaseConfig.java` will auto-detect Railway's built-in `MYSQLHOST` / `MYSQL_URL`).*
+
+### Step 4: Generate a Public Domain URL
+1. Go to the **Settings** tab of the **AnnaSahay** service.
+2. Scroll down to **Networking** / **Public Networking**.
+3. Click **Generate Domain**.
+   - Railway will provide a live HTTPS URL (e.g., `https://annasahay-production.up.railway.app`).
+4. Click the link to open your live web application!
 
 ---
+
+## Phase 2B: Alternative Deployment on Render.com
+
+If you also wish to maintain a deployment on Render:
+
+> [!WARNING]
+> Render Free Tier services "spin down" after 15 minutes of inactivity. When you open the link after inactivity, it may take 60–90 seconds for Render to wake up the service. Additionally, Render does not include a free MySQL database on the same tier, so you must connect an external cloud database (such as Aiven or TiDB Cloud).
+
+### Step 1: Set Up an External Free MySQL Database
+1. Go to **[Aiven.io](https://aiven.io/)** (Free tier MySQL) or **[TiDB Cloud](https://tidbcloud.com/)**.
+2. Create a free MySQL instance and copy the URI or connection credentials.
 
 ### Step 2: Deploy AnnaSahay on Render
 1. Visit **[Render.com](https://render.com/)** and log in with your **GitHub** account.
 2. In the dashboard, click **New +** → **Web Service**.
 3. Choose **Build and deploy from a Git repository**.
-4. Select your **`AnnaSahay`** repository.
+4. Select your **`annasahay-midday-meal-portal`** repository.
 5. Fill in the service configuration:
-   - **Name**: `annasahay` (or `annasahay-portal`)
+   - **Name**: `annasahay-portal`
    - **Region**: Nearest region (e.g., Singapore, Frankfurt, or Oregon)
    - **Branch**: `main`
    - **Runtime**: **Docker** *(Render automatically detects the provided `Dockerfile`)*
    - **Instance Type**: **Free**
-6. Scroll down to **Environment Variables** and add the following 3 variables:
+6. Scroll down to **Environment Variables** and add:
 
 | Key | Value Example |
 | :--- | :--- |
-| `SPRING_DATASOURCE_URL` | `jdbc:mysql://<your-db-host>:<port>/<db_name>?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC` |
+| `SPRING_DATASOURCE_URL` | `jdbc:mysql://<host>:<port>/<db_name>?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC` |
 | `SPRING_DATASOURCE_USERNAME` | `<your-db-username>` |
 | `SPRING_DATASOURCE_PASSWORD` | `<your-db-password>` |
 
-7. Click **Create Web Service**.
-8. Render will automatically:
-   - Build the Docker container.
-   - Run Maven build (`mvn clean package -DskipTests`).
-   - Launch the Spring Boot JAR (`target/anna-sahay-0.0.1-SNAPSHOT.jar`).
-   - Run Hibernate schema creation and seed tables using `data.sql`.
-9. Once the logs display `Started AnnaSahayApplication in ... seconds`, click the public URL provided by Render (e.g., `https://annasahay.onrender.com`).
+7. Click **Create Web Service**. Once the build finishes, click the public URL.
 
 ---
 
