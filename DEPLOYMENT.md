@@ -138,6 +138,51 @@ If you also wish to maintain a deployment on Render:
 
 ---
 
+## Phase 2C: Deploying Frontend on Vercel (Edge CDN + API Reverse Proxy)
+
+Vercel provides ultra-fast frontend loading speeds. Because Vercel is a frontend/serverless platform and does not host long-running Java Spring Boot or Docker containers, this setup hosts the **Frontend UI on Vercel** and automatically forwards all backend API requests (`/api/*`) to your live Spring Boot backend on Railway or Render using the included `vercel.json` reverse proxy.
+
+### Step 1: Push latest code to GitHub
+Make sure `vercel.json` is committed and pushed:
+```powershell
+git add vercel.json
+git commit -m "Configure vercel.json for Vercel deployment"
+git push origin main
+```
+
+### Step 2: Import into Vercel
+1. Go to **[https://vercel.com](https://vercel.com)** and log in with your **GitHub** account (`srushtidumbhare7-ad`).
+2. Click **Add New...** → **Project**.
+3. Under **Import Git Repository**, find **`annasahay-midday-meal-portal`** and click **Import**.
+
+### Step 3: Configure Project Settings on Vercel
+1. **Framework Preset**: Select **Other**.
+2. **Root Directory**: Leave as `./` (default).
+3. **Build and Output Settings**:
+   - Toggle **Output Directory** to **Override**: enter `src/main/resources/static`
+   - **Build Command**: Leave empty / disabled.
+   - **Install Command**: Leave empty / disabled.
+4. Click **Deploy**.
+
+### Step 4: Connecting the Backend API
+The project includes `vercel.json` which automatically proxies `/api/*` to your backend:
+```json
+{
+  "version": 2,
+  "outputDirectory": "src/main/resources/static",
+  "cleanUrls": true,
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://annasahay-midday-meal-portal.onrender.com/api/:path*"
+    }
+  ]
+}
+```
+> **Tip**: If you deployed your backend on Railway (e.g. `https://annasahay-production.up.railway.app`), simply update the `destination` in `vercel.json` to your Railway URL and run `git push`. Vercel will instantly redeploy with the new backend proxy!
+
+---
+
 ## Phase 3: One-Command Deployment with Docker Compose
 
 If you or a recruiter wants to run the entire application stack (MySQL 8 + Spring Boot + UI) on any computer or cloud VM without installing Java or MySQL locally:
